@@ -43,7 +43,8 @@ void remove_duplicates(int32_t *array, size_t *length)
         return;
     }
 
-    for (size_t i = 0; i < *length; i++)
+    size_t i = 0;
+    while (i < *length)
     {
         size_t duplicate_index = (size_t)(-1);
         int32_t current_value = array[i];
@@ -60,6 +61,7 @@ void remove_duplicates(int32_t *array, size_t *length)
 
         if (duplicate_index == (size_t)(-1))
         {
+            i++;
             continue;
         }
 
@@ -67,6 +69,7 @@ void remove_duplicates(int32_t *array, size_t *length)
         {
             array[j] = array[j + 1];
         }
+        array[*length] = INT32_MAX;
     }
 }
 
