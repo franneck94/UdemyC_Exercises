@@ -96,16 +96,42 @@ void preload_vehicle_data(const char datapath[128])
 
 void init_ego_vehicle(VehicleType *ego_vehicle)
 {
+    ego_vehicle->id = EGO_VEHICLE_DATA.id;
+    ego_vehicle->speed_mps = EGO_VEHICLE_DATA.speed_mps;
+    ego_vehicle->distance_m = EGO_VEHICLE_DATA.distance_m;
+    ego_vehicle->lane = EGO_VEHICLE_DATA.lane;
 }
 
 void init_vehicle(VehicleType *vehicle, const int32_t id, const uint32_t cycle)
 {
+    vehicle->id = VEHICLE_DATA[id][cycle].id;
+    vehicle->speed_mps = VEHICLE_DATA[id][cycle].speed_mps;
+    vehicle->distance_m = VEHICLE_DATA[id][cycle].distance_m;
+    vehicle->lane = VEHICLE_DATA[id][cycle].lane;
 }
 
 void init_vehicles(NeighborVehiclesType *vehicles)
 {
+    init_vehicle(&vehicles->vehicles_left_lane[0], 0, 0);
+    init_vehicle(&vehicles->vehicles_left_lane[1], 1, 0);
+    init_vehicle(&vehicles->vehicles_center_lane[0], 2, 0);
+    init_vehicle(&vehicles->vehicles_center_lane[1], 3, 0);
+    init_vehicle(&vehicles->vehicles_right_lane[0], 4, 0);
+    init_vehicle(&vehicles->vehicles_right_lane[1], 5, 0);
 }
 
 void load_cycle(NeighborVehiclesType *vehicles, const uint32_t cycle)
 {
+    vehicles->vehicles_left_lane[0].speed_mps =
+        VEHICLE_DATA[0][cycle].speed_mps;
+    vehicles->vehicles_left_lane[1].speed_mps =
+        VEHICLE_DATA[1][cycle].speed_mps;
+    vehicles->vehicles_center_lane[0].speed_mps =
+        VEHICLE_DATA[2][cycle].speed_mps;
+    vehicles->vehicles_center_lane[1].speed_mps =
+        VEHICLE_DATA[3][cycle].speed_mps;
+    vehicles->vehicles_right_lane[0].speed_mps =
+        VEHICLE_DATA[4][cycle].speed_mps;
+    vehicles->vehicles_right_lane[1].speed_mps =
+        VEHICLE_DATA[5][cycle].speed_mps;
 }
