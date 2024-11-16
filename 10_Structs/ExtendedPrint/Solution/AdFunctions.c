@@ -8,7 +8,8 @@
 
 #include "utils.h"
 
-void print_scene(const VehicleType *ego_vehicle, const NeighborVehiclesType *vehicles)
+void print_scene(const VehicleType *ego_vehicle,
+                 const NeighborVehiclesType *vehicles)
 {
     printf("\n\n");
     printf("\t  L   C   R\n");
@@ -22,11 +23,17 @@ void print_scene(const VehicleType *ego_vehicle, const NeighborVehiclesType *veh
     for (int32_t i = 100; i >= -100; i -= (int32_t)(offset_m))
     {
         const VehicleType *left_vehicle =
-            (left_idx > NUM_VEHICLES_ON_LANE) ? NULL : &vehicles->vehicles_left_lane[left_idx];
+            (left_idx >= NUM_VEHICLES_ON_LANE)
+                ? NULL
+                : &vehicles->vehicles_left_lane[left_idx];
         const VehicleType *center_vehicle =
-            (center_idx > NUM_VEHICLES_ON_LANE) ? NULL : &vehicles->vehicles_center_lane[center_idx];
+            (center_idx >= NUM_VEHICLES_ON_LANE)
+                ? NULL
+                : &vehicles->vehicles_center_lane[center_idx];
         const VehicleType *right_vehicle =
-            (right_idx > NUM_VEHICLES_ON_LANE) ? NULL : &vehicles->vehicles_right_lane[right_idx];
+            (right_idx >= NUM_VEHICLES_ON_LANE)
+                ? NULL
+                : &vehicles->vehicles_right_lane[right_idx];
 
         char left_string[] = "   ";
         char center_string[] = "   ";
@@ -41,7 +48,8 @@ void print_scene(const VehicleType *ego_vehicle, const NeighborVehiclesType *veh
             left_idx++;
         }
 
-        if ((center_vehicle != NULL) && (range_m >= center_vehicle->distance_m) &&
+        if ((center_vehicle != NULL) &&
+            (range_m >= center_vehicle->distance_m) &&
             (center_vehicle->distance_m > (range_m - offset_m)))
         {
             strncpy(center_string, " V ", 4);
@@ -118,12 +126,36 @@ void init_vehicle(VehicleType *vehicle,
 
 void init_vehicles(NeighborVehiclesType *vehicles)
 {
-    init_vehicle(&vehicles->vehicles_left_lane[0], 0, 130.0f, 80.0f, LANE_ASSOCIATION_TYPE_LEFT);
-    init_vehicle(&vehicles->vehicles_left_lane[1], 1, 80.0f, -20.0f, LANE_ASSOCIATION_TYPE_LEFT);
-    init_vehicle(&vehicles->vehicles_center_lane[0], 2, 80.0f, 50.0f, LANE_ASSOCIATION_TYPE_CENTER);
-    init_vehicle(&vehicles->vehicles_center_lane[1], 3, 120.0f, -50.0f, LANE_ASSOCIATION_TYPE_CENTER);
-    init_vehicle(&vehicles->vehicles_right_lane[0], 4, 110.0f, 30.0f, LANE_ASSOCIATION_TYPE_RIGHT);
-    init_vehicle(&vehicles->vehicles_right_lane[1], 5, 90.0f, -30.0f, LANE_ASSOCIATION_TYPE_RIGHT);
+    init_vehicle(&vehicles->vehicles_left_lane[0],
+                 0,
+                 130.0f,
+                 80.0f,
+                 LANE_ASSOCIATION_TYPE_LEFT);
+    init_vehicle(&vehicles->vehicles_left_lane[1],
+                 1,
+                 80.0f,
+                 -20.0f,
+                 LANE_ASSOCIATION_TYPE_LEFT);
+    init_vehicle(&vehicles->vehicles_center_lane[0],
+                 2,
+                 80.0f,
+                 50.0f,
+                 LANE_ASSOCIATION_TYPE_CENTER);
+    init_vehicle(&vehicles->vehicles_center_lane[1],
+                 3,
+                 120.0f,
+                 -50.0f,
+                 LANE_ASSOCIATION_TYPE_CENTER);
+    init_vehicle(&vehicles->vehicles_right_lane[0],
+                 4,
+                 110.0f,
+                 30.0f,
+                 LANE_ASSOCIATION_TYPE_RIGHT);
+    init_vehicle(&vehicles->vehicles_right_lane[1],
+                 5,
+                 90.0f,
+                 -30.0f,
+                 LANE_ASSOCIATION_TYPE_RIGHT);
 }
 
 void print_vehicle(const VehicleType *vehicle)
